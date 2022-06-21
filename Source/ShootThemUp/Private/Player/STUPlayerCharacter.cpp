@@ -51,7 +51,7 @@ void ASTUPlayerCharacter::OnCameraCollisionEndOverlap(
 
 void ASTUPlayerCharacter::CheckCameraOverlap()
 {
-    const bool HideMesh = CameraCollisionComponent->IsOverlappingComponent(GetCapsuleComponent());
+    bool HideMesh = CameraCollisionComponent->IsOverlappingComponent(GetCapsuleComponent());
     GetMesh()->SetOwnerNoSee(HideMesh);
 
     TArray<USceneComponent*> MeshChildren;

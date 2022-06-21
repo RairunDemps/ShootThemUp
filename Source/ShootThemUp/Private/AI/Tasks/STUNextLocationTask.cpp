@@ -12,14 +12,14 @@ USTUNextLocationTask::USTUNextLocationTask()
 
 EBTNodeResult::Type USTUNextLocationTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-    const AAIController* Controller = OwnerComp.GetAIOwner();
+    AAIController* Controller = OwnerComp.GetAIOwner();
     UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
     if (!Controller || !Blackboard) return EBTNodeResult::Failed;
 
     APawn* Pawn = Controller->GetPawn();
     if (!Pawn) return EBTNodeResult::Failed;
 
-    const UNavigationSystemV1* NavigationSystem = UNavigationSystemV1::GetCurrent(Pawn);
+    UNavigationSystemV1* NavigationSystem = UNavigationSystemV1::GetCurrent(Pawn);
     if (!NavigationSystem) return EBTNodeResult::Failed;
 
     FNavLocation NavLocation;
@@ -32,7 +32,7 @@ EBTNodeResult::Type USTUNextLocationTask::ExecuteTask(UBehaviorTreeComponent& Ow
         Location = CenterActor->GetActorLocation();
     }
 
-    const bool Found = NavigationSystem->GetRandomReachablePointInRadius(Pawn->GetActorLocation(), Radius, NavLocation);
+    bool Found = NavigationSystem->GetRandomReachablePointInRadius(Pawn->GetActorLocation(), Radius, NavLocation);
     if (!Found) return EBTNodeResult::Failed;
 
     Blackboard->SetValueAsVector(AimLocationKey.SelectedKeyName, NavLocation.Location);

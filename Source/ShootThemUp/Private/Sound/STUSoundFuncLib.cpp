@@ -17,6 +17,6 @@ void USTUSoundFuncLib::ToggleSoundClassVolume(USoundClass* SoundClass)
 {
     if (!SoundClass) return;
 
-    const float NextVolume = SoundClass->Properties.Volume > 0.0f ? 0.0f : 1.0f;
+    float NextVolume = SoundClass->Properties.Volume > 0.0f ? 0.0f : 1.0f;
     SetSoundClassVolume(SoundClass, NextVolume);
 }

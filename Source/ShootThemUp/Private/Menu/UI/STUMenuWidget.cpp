@@ -37,7 +37,7 @@ void USTUMenuWidget::InitLevels()
     if (!LevelItemsBox) return;
 
     LevelItemsBox->ClearChildren();
-    for (const auto LevelData : STUGameInstance->GetLevelsData())
+    for (auto LevelData : STUGameInstance->GetLevelsData())
     {
         USTULevelItemWidget* LevelItemWidget = CreateWidget<USTULevelItemWidget>(GetWorld(), LevelItemWidgetClass);
         if (!LevelItemWidget) continue;
@@ -64,11 +64,11 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
     if (!STUGameInstance) return;
 
     STUGameInstance->SetStartupLevel(Data);
-    for (const auto LevelItemWidget : LevelItemWidgets)
+    for (auto LevelItemWidget : LevelItemWidgets)
     {
         if (LevelItemWidget)
         {
-            const auto IsSelected = LevelItemWidget->GetLevelData().LevelName == Data.LevelName;
+            bool IsSelected = LevelItemWidget->GetLevelData().LevelName == Data.LevelName;
             LevelItemWidget->SetSelected(IsSelected);
         }
     }
@@ -84,7 +84,7 @@ void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* 
 {
     if (Animation == HideAnimation)
     {
-        const USTUGameInstance* STUGameInstance = GetGameInstance();
+        USTUGameInstance* STUGameInstance = GetGameInstance();
         if (!STUGameInstance) return;
 
         UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevel().LevelName);

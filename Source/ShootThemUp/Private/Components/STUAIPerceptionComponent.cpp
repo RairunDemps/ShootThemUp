@@ -21,19 +21,19 @@ AActor* USTUAIPerceptionComponent::GetClosestEnemy() const
     AAIController* Controller = Cast<AAIController>(GetOwner());
     if (!Controller) return nullptr;
 
-    const APawn* Pawn = Controller->GetPawn();
+    APawn* Pawn = Controller->GetPawn();
     if (!Pawn) return nullptr;
 
     float BestDistance = MAX_FLT;
     AActor* BestPawn = nullptr;
-    for (const auto PercieveActor : PercieveActors)
+    for (auto PercieveActor : PercieveActors)
     {
-        const USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PercieveActor);
-        const APawn* PercievePawn = Cast<APawn>(PercieveActor);
-        const bool AreEnemies = PercievePawn && STUUtils::AreEnemies(Controller, PercievePawn->Controller);
+        USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PercieveActor);
+        APawn* PercievePawn = Cast<APawn>(PercieveActor);
+        bool AreEnemies = PercievePawn && STUUtils::AreEnemies(Controller, PercievePawn->Controller);
         if (HealthComponent && !HealthComponent->IsDead() && AreEnemies)
         {
-            const float CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
+            float CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
             if (CurrentDistance < BestDistance)
             {
                 BestDistance = CurrentDistance;

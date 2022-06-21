@@ -37,7 +37,7 @@ void ASTURifleWeapon::StopFire()
 
 void ASTURifleWeapon::Zoom(bool IsEnabled)
 {
-    const auto Controller = GetController<APlayerController>();
+    APlayerController* Controller = GetController<APlayerController>();
     if (!Controller || !Controller->PlayerCameraManager) return;
 
     if (IsEnabled)
@@ -85,7 +85,7 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 
     TraceStart = ViewLocation;
     float HalfRad = FMath::DegreesToRadians(BulletsSpread);
-    const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
+    FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
     TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 
     return true;

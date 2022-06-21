@@ -187,7 +187,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
     }
 
     CurrentWeapon = Weapons[WeaponIndex];
-    const FWeaponData* CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data) {  //
+    FWeaponData* CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data) {  //
         return Data.WeaponClass == CurrentWeapon->GetClass();                                         //
     });
     CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
@@ -248,7 +248,7 @@ void USTUWeaponComponent::OnEmptyClip(ASTUBaseWeapon* AmmoEmptyWeapon)
     }
     else
     {
-        for (const auto Weapon : Weapons)
+        for (auto Weapon : Weapons)
         {
             if (Weapon == AmmoEmptyWeapon)
             {

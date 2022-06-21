@@ -6,21 +6,21 @@
 
 int32 USTUGameDataWidget::GetCurrentRoundNum() const
 {
-    const ASTUGameModeBase* GameMode = GetSTUGameMode();
+    ASTUGameModeBase* GameMode = GetSTUGameMode();
 
     return GameMode ? GameMode->GetCurrentRoundNum() : 0;
 }
 
 int32 USTUGameDataWidget::GetTotalRoundsNum() const
 {
-    const ASTUGameModeBase* GameMode = GetSTUGameMode();
+    ASTUGameModeBase* GameMode = GetSTUGameMode();
 
     return GameMode ? GameMode->GetGameData().RoundsNum : 0;
 }
 
 int32 USTUGameDataWidget::GetRoundSecondsRemaining() const
 {
-    const ASTUGameModeBase* GameMode = GetSTUGameMode();
+    ASTUGameModeBase* GameMode = GetSTUGameMode();
 
     return GameMode ? GameMode->GetRoundSecondsRemaining() : 0;
 }

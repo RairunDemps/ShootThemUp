@@ -11,9 +11,9 @@ void USTUEnemyEnvQueryContext::ProvideContext(FEnvQueryInstance& QueryInstance, 
 {
     AActor* QueryOwner = Cast<AActor>(QueryInstance.Owner.Get());
 
-    const UBlackboardComponent* Blackboard = UAIBlueprintHelperLibrary::GetBlackboard(QueryOwner);
+    UBlackboardComponent* Blackboard = UAIBlueprintHelperLibrary::GetBlackboard(QueryOwner);
     if (!Blackboard) return;
 
-    const UObject* ContextActor = Blackboard->GetValueAsObject(EnemyActorKeyName);
+    UObject* ContextActor = Blackboard->GetValueAsObject(EnemyActorKeyName);
     UEnvQueryItemType_Actor::SetContextHelper(ContextData, Cast<AActor>(ContextActor));
 }

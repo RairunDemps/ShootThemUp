@@ -12,7 +12,7 @@ USTUNeedAmmoDecorator::USTUNeedAmmoDecorator()
 
 bool USTUNeedAmmoDecorator::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
-    const AAIController* Controller = OwnerComp.GetAIOwner();
+    AAIController* Controller = OwnerComp.GetAIOwner();
     if (!Controller) return false;
 
     USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());

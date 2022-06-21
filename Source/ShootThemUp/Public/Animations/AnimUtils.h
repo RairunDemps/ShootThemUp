@@ -8,7 +8,7 @@ public:
     {
         if (!Animation) return nullptr;
 
-        const TArray<FAnimNotifyEvent> NotifyEvents = Animation->Notifies;
+        TArray<FAnimNotifyEvent> NotifyEvents = Animation->Notifies;
         for (auto NotifyEvent : NotifyEvents)
         {
             auto AnimNotify = Cast<T>(NotifyEvent.Notify);

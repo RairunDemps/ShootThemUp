@@ -18,7 +18,7 @@ void USTUGameOverWidget::NativeOnInitialized()
 
     if (GetWorld())
     {
-        const auto GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
+        ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
         if (GameMode)
         {
             GameMode->OnMatchStateChanged.AddUObject(this, &USTUGameOverWidget::OnMatchStateChanged);
@@ -47,10 +47,10 @@ void USTUGameOverWidget::UpdatePlayersStat()
 
     for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
     {
-        const AController* Controller = It->Get();
+        AController* Controller = It->Get();
         if (!Controller) continue;
 
-        const ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
         if (!PlayerState) continue;
 
         USTUPlayerStatRowWidget* PlayerStatRowWidget = CreateWidget<USTUPlayerStatRowWidget>(GetWorld(), PlayerStatRowWidgetClass);

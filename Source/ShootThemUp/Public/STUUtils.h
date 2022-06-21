@@ -17,8 +17,8 @@ public:
     {
         if (!Controller1 || !Controller2 || Controller1 == Controller2) return false;
 
-        const ASTUPlayerState* PlayerState1 = Controller1->GetPlayerState<ASTUPlayerState>();
-        const ASTUPlayerState* PlayerState2 = Controller2->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* PlayerState1 = Controller1->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* PlayerState2 = Controller2->GetPlayerState<ASTUPlayerState>();
 
         return PlayerState1 && PlayerState2 && PlayerState1->GetTeamID() != PlayerState2->GetTeamID();
     }

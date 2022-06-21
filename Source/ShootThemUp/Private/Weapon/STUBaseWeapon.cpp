@@ -38,12 +38,12 @@ void ASTUBaseWeapon::MakeShot() {}
 
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
 {
-    const ACharacter* STUCharacter = GetOwner<ACharacter>();
+    ACharacter* STUCharacter = GetOwner<ACharacter>();
     if (!STUCharacter) return false;
 
     if (STUCharacter->IsPlayerControlled())
     {
-        const APlayerController* Controller = STUCharacter->GetController<APlayerController>();
+        APlayerController* Controller = STUCharacter->GetController<APlayerController>();
         if (!Controller) return false;
 
         Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
@@ -69,7 +69,7 @@ bool ASTUBaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
     if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
     TraceStart = ViewLocation;
-    const FVector ShootDirection = ViewRotation.Vector();
+    FVector ShootDirection = ViewRotation.Vector();
     TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 
     return true;
@@ -144,7 +144,7 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
     }
     else if (CurrentAmmo.Clips < DefaultAmmo.Clips)
     {
-        const auto NextClipsAmount = CurrentAmmo.Clips + ClipsAmount;
+        int NextClipsAmount = CurrentAmmo.Clips + ClipsAmount;
         if (DefaultAmmo.Clips - NextClipsAmount >= 0)
         {
             CurrentAmmo.Clips = NextClipsAmount;

@@ -46,8 +46,8 @@ UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AContr
 
 void ASTUGameModeBase::Killed(AController* KillerController, AController* VictimController)
 {
-    const auto KillerPlayerState = KillerController ? KillerController->GetPlayerState<ASTUPlayerState>() : nullptr;
-    const auto VictimPlayerState = VictimController ? VictimController->GetPlayerState<ASTUPlayerState>() : nullptr;
+    ASTUPlayerState* KillerPlayerState = KillerController ? KillerController->GetPlayerState<ASTUPlayerState>() : nullptr;
+    ASTUPlayerState* VictimPlayerState = VictimController ? VictimController->GetPlayerState<ASTUPlayerState>() : nullptr;
     if (KillerPlayerState)
     {
         KillerPlayerState->AddKill();
@@ -68,7 +68,7 @@ void ASTUGameModeBase::RespawnRequest(AController* Controller)
 
 bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate)
 {
-    const bool PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
+    bool PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
 
     if (PauseSet)
     {
@@ -80,7 +80,7 @@ bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDel
 
 bool ASTUGameModeBase::ClearPause()
 {
-    const auto PauseClear = Super::ClearPause();
+    bool PauseClear = Super::ClearPause();
 
     if (PauseClear)
     {
@@ -186,7 +186,7 @@ void ASTUGameModeBase::SetPlayerColor(AController* Controller)
     ASTUBaseCharacter* Character = Controller->GetPawn<ASTUBaseCharacter>();
     if (!Character) return;
 
-    const ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+    ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
     Character->SetPlayerColor(PlayerState->GetTeamColor());
 }
 
@@ -196,7 +196,7 @@ void ASTUGameModeBase::LogPlayerInfo()
 
     for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
     {
-        const AController* Controller = It->Get();
+        AController* Controller = It->Get();
         if (!Controller) continue;
 
         ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
@@ -208,7 +208,7 @@ void ASTUGameModeBase::LogPlayerInfo()
 
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
-    const bool RespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
+    bool RespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
     if (!RespawnAvailable) return;
 
     USTURespawnComponent* RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);

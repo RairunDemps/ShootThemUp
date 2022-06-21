@@ -12,7 +12,7 @@ USTUChangeWeaponService::USTUChangeWeaponService()
 
 void USTUChangeWeaponService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-    const AAIController* Controller = OwnerComp.GetAIOwner();
+    AAIController* Controller = OwnerComp.GetAIOwner();
 
     if (Controller)
     {

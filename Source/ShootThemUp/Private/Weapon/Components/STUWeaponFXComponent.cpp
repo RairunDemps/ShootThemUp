@@ -17,7 +17,7 @@ void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
 
     if (Hit.PhysMaterial.IsValid())
     {
-        const UPhysicalMaterial* PhysMat = Hit.PhysMaterial.Get();
+        UPhysicalMaterial* PhysMat = Hit.PhysMaterial.Get();
         if (ImpactDataMap.Contains(PhysMat))
         {
             ImpactData = ImpactDataMap[PhysMat];

@@ -49,10 +49,10 @@ float ASTUBaseCharacter::GetMovementDirection() const
 {
     if (GetVelocity().IsZero()) return 0.0f;
 
-    const FVector VelocityNormal = GetVelocity().GetSafeNormal();
-    const float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
-    const FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
-    const float Degrees = FMath::RadiansToDegrees(AngleBetween);
+    FVector VelocityNormal = GetVelocity().GetSafeNormal();
+    float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
+    FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
+    float Degrees = FMath::RadiansToDegrees(AngleBetween);
 
     return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
@@ -96,10 +96,10 @@ void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta) {}
 
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 {
-    const float VelocityZ = -GetVelocity().Z;
+    float VelocityZ = -GetVelocity().Z;
     if (VelocityZ < LandedDamageVelocity.X) return;
 
-    const float FallDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, VelocityZ);
+    float FallDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, VelocityZ);
     TakeDamage(FallDamage, FDamageEvent{}, nullptr, nullptr);
 }
 

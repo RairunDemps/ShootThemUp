@@ -34,7 +34,7 @@ void ASTUBasePickup::Tick(float DeltaTime)
 
 bool ASTUBasePickup::CouldBeTaken() const
 {
-    return GetWorldTimerManager().IsTimerActive(RespawnTimerHandle);
+    return !GetWorldTimerManager().IsTimerActive(RespawnTimerHandle);
 }
 
 void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -77,6 +77,6 @@ void ASTUBasePickup::Respawn()
 
 void ASTUBasePickup::GenerateRotationYaw()
 {
-    const float Direction = FMath::RandBool() ? 1.0f : -1.0f;
+    float Direction = FMath::RandBool() ? 1.0f : -1.0f;
     RotationYaw = FMath::RandRange(1.0f, 2.0f) * Direction;
 }

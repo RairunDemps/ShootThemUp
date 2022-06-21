@@ -66,7 +66,7 @@ private:
     template <class T>
     T* GetController() const
     {
-        const APawn* Pawn = GetOwner<APawn>();
+        APawn* Pawn = GetOwner<APawn>();
 
         return Pawn ? Pawn->GetController<T>() : nullptr;
     }
