@@ -29,7 +29,7 @@ void USTUMenuWidget::NativeOnInitialized()
 
 void USTUMenuWidget::InitLevels()
 {
-    USTUGameInstance* STUGameInstance = GetGameInstance();
+    USTUGameInstance* const STUGameInstance = GetGameInstance();
     if (!STUGameInstance) return;
 
     checkf(STUGameInstance->GetLevelsData().Num() != 0, TEXT("Number of levels is zero"));
@@ -37,9 +37,9 @@ void USTUMenuWidget::InitLevels()
     if (!LevelItemsBox) return;
 
     LevelItemsBox->ClearChildren();
-    for (auto LevelData : STUGameInstance->GetLevelsData())
+    for (const FLevelData& LevelData : STUGameInstance->GetLevelsData())
     {
-        USTULevelItemWidget* LevelItemWidget = CreateWidget<USTULevelItemWidget>(GetWorld(), LevelItemWidgetClass);
+        USTULevelItemWidget* const LevelItemWidget = CreateWidget<USTULevelItemWidget>(GetWorld(), LevelItemWidgetClass);
         if (!LevelItemWidget) continue;
 
         LevelItemWidget->SetLevelData(LevelData);
@@ -60,15 +60,15 @@ void USTUMenuWidget::InitLevels()
 
 void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 {
-    USTUGameInstance* STUGameInstance = GetGameInstance();
+    USTUGameInstance* const STUGameInstance = GetGameInstance();
     if (!STUGameInstance) return;
 
     STUGameInstance->SetStartupLevel(Data);
-    for (auto LevelItemWidget : LevelItemWidgets)
+    for (USTULevelItemWidget* const LevelItemWidget : LevelItemWidgets)
     {
         if (LevelItemWidget)
         {
-            bool IsSelected = LevelItemWidget->GetLevelData().LevelName == Data.LevelName;
+            const bool IsSelected = LevelItemWidget->GetLevelData().LevelName == Data.LevelName;
             LevelItemWidget->SetSelected(IsSelected);
         }
     }
@@ -84,7 +84,7 @@ void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* 
 {
     if (Animation == HideAnimation)
     {
-        USTUGameInstance* STUGameInstance = GetGameInstance();
+        USTUGameInstance* const STUGameInstance = GetGameInstance();
         if (!STUGameInstance) return;
 
         UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevel().LevelName);

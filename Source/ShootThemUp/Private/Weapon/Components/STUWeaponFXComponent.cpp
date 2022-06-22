@@ -13,11 +13,11 @@ USTUWeaponFXComponent::USTUWeaponFXComponent()
 
 void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
 {
-    auto ImpactData = DefaulImpactData;
+    FImpactData ImpactData = DefaulImpactData;
 
     if (Hit.PhysMaterial.IsValid())
     {
-        UPhysicalMaterial* PhysMat = Hit.PhysMaterial.Get();
+        UPhysicalMaterial* const PhysMat = Hit.PhysMaterial.Get();
         if (ImpactDataMap.Contains(PhysMat))
         {
             ImpactData = ImpactDataMap[PhysMat];

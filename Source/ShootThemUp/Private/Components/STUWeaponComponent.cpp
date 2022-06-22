@@ -31,7 +31,7 @@ void USTUWeaponComponent::BeginPlay()
 void USTUWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     CurrentWeapon = nullptr;
-    for (auto Weapon : Weapons)
+    for (ASTUBaseWeapon* const Weapon : Weapons)
     {
         Weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
         Weapon->Destroy();
@@ -93,7 +93,7 @@ bool USTUWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& Data) const
 
 bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount)
 {
-    for (auto Weapon : Weapons)
+    for (ASTUBaseWeapon* const Weapon : Weapons)
     {
         if (Weapon && Weapon->IsA(WeaponType))
         {
@@ -106,7 +106,7 @@ bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, i
 
 bool USTUWeaponComponent::NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType)
 {
-    for (auto Weapon : Weapons)
+    for (ASTUBaseWeapon* const Weapon : Weapons)
     {
         if (Weapon && Weapon->IsA(WeaponType))
         {
@@ -119,7 +119,7 @@ bool USTUWeaponComponent::NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType)
 
 void USTUWeaponComponent::InitAnimations()
 {
-    USTUEquipFinishedAnimNotify* EquipFinishedNotify = AnimUtils::FindNotifyByClass<USTUEquipFinishedAnimNotify>(EquipAnimMontage);
+    USTUEquipFinishedAnimNotify* const EquipFinishedNotify = AnimUtils::FindNotifyByClass<USTUEquipFinishedAnimNotify>(EquipAnimMontage);
     if (EquipFinishedNotify)
     {
         EquipFinishedNotify->OnNotified.AddUObject(this, &USTUWeaponComponent::OnEquipFinished);
@@ -130,9 +130,9 @@ void USTUWeaponComponent::InitAnimations()
         checkNoEntry();
     }
 
-    for (auto OneWeaponData : WeaponData)
+    for (const FWeaponData& OneWeaponData : WeaponData)
     {
-        USTUReloadFinishedAnimNotify* ReloadFinishedNotify =
+        USTUReloadFinishedAnimNotify* const ReloadFinishedNotify =
             AnimUtils::FindNotifyByClass<USTUReloadFinishedAnimNotify>(OneWeaponData.ReloadAnimMontage);
         if (!ReloadFinishedNotify)
         {
@@ -145,12 +145,12 @@ void USTUWeaponComponent::InitAnimations()
 
 void USTUWeaponComponent::SpawnWeapons()
 {
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character || !GetWorld()) return;
 
-    for (auto OneWeaponData : WeaponData)
+    for (const FWeaponData& OneWeaponData : WeaponData)
     {
-        ASTUBaseWeapon* Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(OneWeaponData.WeaponClass);
+        ASTUBaseWeapon* const Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(OneWeaponData.WeaponClass);
         if (!Weapon) continue;
 
         Weapon->OnClipEmpty.AddUObject(this, &USTUWeaponComponent::OnEmptyClip);
@@ -176,7 +176,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
         return;
     }
 
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character) return;
 
     if (CurrentWeapon)
@@ -187,7 +187,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
     }
 
     CurrentWeapon = Weapons[WeaponIndex];
-    FWeaponData* CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data) {  //
+    FWeaponData* const CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data) {  //
         return Data.WeaponClass == CurrentWeapon->GetClass();                                         //
     });
     CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
@@ -198,7 +198,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
 
 void USTUWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
 {
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character) return;
 
     Character->PlayAnimMontage(Animation);
@@ -206,7 +206,7 @@ void USTUWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
 
 void USTUWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
 {
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character || Character->GetMesh() != MeshComponent) return;
 
     EquipAnimInProgress = false;
@@ -214,7 +214,7 @@ void USTUWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
 
 void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 {
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character || Character->GetMesh() != MeshComponent) return;
 
     ReloadAnimInProgress = false;
@@ -248,7 +248,7 @@ void USTUWeaponComponent::OnEmptyClip(ASTUBaseWeapon* AmmoEmptyWeapon)
     }
     else
     {
-        for (auto Weapon : Weapons)
+        for (ASTUBaseWeapon* const Weapon : Weapons)
         {
             if (Weapon == AmmoEmptyWeapon)
             {

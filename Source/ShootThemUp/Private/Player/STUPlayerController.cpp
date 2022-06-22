@@ -16,7 +16,7 @@ void ASTUPlayerController::BeginPlay()
 
     if (GetWorld())
     {
-        if (ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>())
+        if (ASTUGameModeBase* const GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>())
         {
             GameMode->OnMatchStateChanged.AddUObject(this, &ASTUPlayerController::OnMatchStateChanged);
         }
@@ -64,7 +64,7 @@ void ASTUPlayerController::OnMuteSounds()
 {
     if (!GetWorld()) return;
 
-    USTUGameInstance* STUGameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
+    USTUGameInstance* const STUGameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
     if (!STUGameInstance) return;
 
     STUGameInstance->ToggleSound();

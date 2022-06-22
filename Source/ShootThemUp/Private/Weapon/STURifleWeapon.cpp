@@ -37,7 +37,7 @@ void ASTURifleWeapon::StopFire()
 
 void ASTURifleWeapon::Zoom(bool IsEnabled)
 {
-    APlayerController* Controller = GetController<APlayerController>();
+    APlayerController* const Controller = GetController<APlayerController>();
     if (!Controller || !Controller->PlayerCameraManager) return;
 
     if (IsEnabled)
@@ -84,8 +84,8 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
     if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
     TraceStart = ViewLocation;
-    float HalfRad = FMath::DegreesToRadians(BulletsSpread);
-    FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
+    const float HalfRad = FMath::DegreesToRadians(BulletsSpread);
+    const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
     TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 
     return true;
@@ -93,7 +93,7 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 
 void ASTURifleWeapon::MakeDamage(const FHitResult& HitResult)
 {
-    AActor* DamagedActor = HitResult.GetActor();
+    AActor* const DamagedActor = HitResult.GetActor();
     if (!DamagedActor) return;
 
     FPointDamageEvent PointDamageEvent;
@@ -132,7 +132,7 @@ void ASTURifleWeapon::SetFXActive(bool IsActive)
 
 void ASTURifleWeapon::SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd)
 {
-    UNiagaraComponent* TraceFXComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), TraceFX, TraceStart);
+    UNiagaraComponent* const TraceFXComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), TraceFX, TraceStart);
     if (TraceFXComponent)
     {
         TraceFXComponent->SetNiagaraVariableVec3(TraceTargetName, TraceEnd);

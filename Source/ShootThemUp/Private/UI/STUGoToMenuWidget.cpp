@@ -19,7 +19,7 @@ void USTUGoToMenuWidget::OnGoToMenu()
 {
     if (!GetWorld()) return;
 
-    USTUGameInstance* GameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
+    USTUGameInstance* const GameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
     if (!GameInstance) return;
 
     if (GameInstance->GetMenuLevelName().IsNone())

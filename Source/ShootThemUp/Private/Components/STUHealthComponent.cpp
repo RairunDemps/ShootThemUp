@@ -24,7 +24,7 @@ void USTUHealthComponent::BeginPlay()
     check(MaxHealth > 0);
 
     SetHealth(MaxHealth);
-    AActor* Owner = GetOwner();
+    AActor* const Owner = GetOwner();
     if (Owner)
     {
         Owner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamage);
@@ -36,16 +36,13 @@ void USTUHealthComponent::BeginPlay()
 void USTUHealthComponent::OnTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation,
     UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
-    float FinalDamage = Damage * GetDamageModifier(DamagedActor, BoneName);
-    UE_LOG(
-        LogHealthComponent, Display, TEXT("On point damage: %f, finale damamge = %f, bone: %s"), Damage, FinalDamage, *BoneName.ToString());
+    const float FinalDamage = Damage * GetDamageModifier(DamagedActor, BoneName);
     ApplyDamage(FinalDamage, InstigatedBy);
 }
 
 void USTUHealthComponent::OnTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin,
     FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
 {
-    UE_LOG(LogHealthComponent, Display, TEXT("On radial damage: %f"), Damage);
     ApplyDamage(Damage, InstigatedBy);
 }
 
@@ -88,8 +85,8 @@ void USTUHealthComponent::HealUpdate()
 
 void USTUHealthComponent::SetHealth(float NewHealth)
 {
-    float NextHealth = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
-    float HealthDelta = NextHealth - Health;
+    const float NextHealth = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
+    const float HealthDelta = NextHealth - Health;
 
     Health = NextHealth;
     OnHealthChanged.Broadcast(Health, HealthDelta);
@@ -100,7 +97,6 @@ bool USTUHealthComponent::TryToAddHealth(float HealthAmount)
     if (IsDead() || IsHealthFull() || HealthAmount <= 0) return false;
 
     SetHealth(Health + HealthAmount);
-
     return true;
 }
 
@@ -113,10 +109,10 @@ void USTUHealthComponent::PlayCameraShake()
 {
     if (IsDead()) return;
 
-    APawn* Player = GetOwner<APawn>();
+    APawn* const Player = GetOwner<APawn>();
     if (!Player) return;
 
-    APlayerController* Controller = Player->GetController<APlayerController>();
+    APlayerController* const Controller = Player->GetController<APlayerController>();
     if (!Controller || !Controller->PlayerCameraManager) return;
 
     Controller->PlayerCameraManager->StartCameraShake(CameraShake);
@@ -126,21 +122,21 @@ void USTUHealthComponent::Killed(AController* KillerController)
 {
     if (!GetWorld()) return;
 
-    ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
+    ASTUGameModeBase* const GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
     if (!GameMode) return;
 
-    APawn* Player = GetOwner<APawn>();
-    AController* VictimController = Player ? Player->Controller : nullptr;
+    APawn* const Player = GetOwner<APawn>();
+    AController* const VictimController = Player ? Player->Controller : nullptr;
 
     GameMode->Killed(KillerController, VictimController);
 }
 
 float USTUHealthComponent::GetDamageModifier(AActor* DamagedActor, FName BoneName)
 {
-    ACharacter* Character = GetOwner<ACharacter>();
+    ACharacter* const Character = GetOwner<ACharacter>();
     if (!Character || !Character->GetMesh() || !Character->GetMesh()->GetBodyInstance(BoneName)) return 1.0f;
 
-    UPhysicalMaterial* PhysicalMaterial = Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial();
+    UPhysicalMaterial* const PhysicalMaterial = Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial();
     if (!PhysicalMaterial || !DamageModifiers.Contains(PhysicalMaterial)) return 1.0f;
 
     return DamageModifiers[PhysicalMaterial];

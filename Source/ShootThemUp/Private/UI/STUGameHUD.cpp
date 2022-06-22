@@ -19,9 +19,9 @@ void ASTUGameHUD::BeginPlay()
     GameWidgets.Add(ESTUMatchState::InProgress, CreateWidget<USTUBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
     GameWidgets.Add(ESTUMatchState::Pause, CreateWidget<USTUBaseWidget>(GetWorld(), PauseWidgetClass));
     GameWidgets.Add(ESTUMatchState::GameOver, CreateWidget<USTUBaseWidget>(GetWorld(), GameOverWidgetClass));
-    for (auto GameWidgetPair : GameWidgets)
+    for (TPair<ESTUMatchState, USTUBaseWidget*>& GameWidgetPair : GameWidgets)
     {
-        USTUBaseWidget* GameWidget = GameWidgetPair.Value;
+        USTUBaseWidget* const GameWidget = GameWidgetPair.Value;
         if (!GameWidget) continue;
 
         GameWidget->AddToViewport();
@@ -30,8 +30,7 @@ void ASTUGameHUD::BeginPlay()
 
     if (GetWorld())
     {
-        ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
-        if (GameMode)
+        if (ASTUGameModeBase* const GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>())
         {
             GameMode->OnMatchStateChanged.AddUObject(this, &ASTUGameHUD::OnMatchStateChanged);
         }

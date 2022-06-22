@@ -12,11 +12,11 @@ USTUChangeWeaponService::USTUChangeWeaponService()
 
 void USTUChangeWeaponService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-    AAIController* Controller = OwnerComp.GetAIOwner();
+    AAIController* const Controller = OwnerComp.GetAIOwner();
 
     if (Controller)
     {
-        USTUAIWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUAIWeaponComponent>(Controller->GetPawn());
+        USTUAIWeaponComponent* const WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUAIWeaponComponent>(Controller->GetPawn());
         if (WeaponComponent && Probability > 0.0f && FMath::FRand() <= Probability)
         {
             WeaponComponent->NextWeapon();

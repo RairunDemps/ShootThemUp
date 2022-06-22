@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "STUCoreTypes.h"
 #include "STUPlayerController.generated.h"
 
 class USTURespawnComponent;

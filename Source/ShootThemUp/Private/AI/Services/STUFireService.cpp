@@ -13,13 +13,13 @@ USTUFireService::USTUFireService()
 
 void USTUFireService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-    AAIController* Controller = OwnerComp.GetAIOwner();
-    UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+    AAIController* const Controller = OwnerComp.GetAIOwner();
+    UBlackboardComponent* const Blackboard = OwnerComp.GetBlackboardComponent();
 
-    bool HasAim = Blackboard && Blackboard->GetValueAsObject(EnemyActorKey.SelectedKeyName);
+    const bool HasAim = Blackboard && Blackboard->GetValueAsObject(EnemyActorKey.SelectedKeyName);
     if (Controller)
     {
-        USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
+        USTUWeaponComponent* const WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
         if (WeaponComponent)
         {
             HasAim ? WeaponComponent->StartFire() : WeaponComponent->StopFire();

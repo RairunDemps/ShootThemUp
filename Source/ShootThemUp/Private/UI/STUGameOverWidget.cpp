@@ -18,8 +18,7 @@ void USTUGameOverWidget::NativeOnInitialized()
 
     if (GetWorld())
     {
-        ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
-        if (GameMode)
+        if (ASTUGameModeBase* const GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>())
         {
             GameMode->OnMatchStateChanged.AddUObject(this, &USTUGameOverWidget::OnMatchStateChanged);
         }
@@ -45,15 +44,15 @@ void USTUGameOverWidget::UpdatePlayersStat()
 
     PlayerStatBox->ClearChildren();
 
-    for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+    for (FConstControllerIterator It = GetWorld()->GetControllerIterator(); It; ++It)
     {
-        AController* Controller = It->Get();
+        AController* const Controller = It->Get();
         if (!Controller) continue;
 
-        ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* const PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
         if (!PlayerState) continue;
 
-        USTUPlayerStatRowWidget* PlayerStatRowWidget = CreateWidget<USTUPlayerStatRowWidget>(GetWorld(), PlayerStatRowWidgetClass);
+        USTUPlayerStatRowWidget* const PlayerStatRowWidget = CreateWidget<USTUPlayerStatRowWidget>(GetWorld(), PlayerStatRowWidgetClass);
         if (!PlayerStatRowWidget) continue;
 
         PlayerStatRowWidget->SetPlayerName(FText::FromString(PlayerState->GetPlayerName()));
@@ -68,6 +67,6 @@ void USTUGameOverWidget::UpdatePlayersStat()
 
 void USTUGameOverWidget::OnResetLevel()
 {
-    FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(this);
+    const FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(this);
     UGameplayStatics::OpenLevel(this, FName(CurrentLevelName));
 }

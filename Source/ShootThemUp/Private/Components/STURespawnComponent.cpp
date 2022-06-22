@@ -29,7 +29,7 @@ void USTURespawnComponent::RespawnTimerUpdate()
         if (!GetWorld()) return;
         
         GetWorld()->GetTimerManager().ClearTimer(RespawnTimerHandle);
-        ASTUGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
+        ASTUGameModeBase* const GameMode = GetWorld()->GetAuthGameMode<ASTUGameModeBase>();
         if (!GameMode) return;
 
         GameMode->RespawnRequest(GetOwner<AController>());

@@ -9,7 +9,7 @@ void ASTUMenuHUD::BeginPlay()
 
     if (!MenuWidgetClass) return;
 
-    USTUBaseWidget* MenuWidget = CreateWidget<USTUBaseWidget>(GetWorld(), MenuWidgetClass);
+    USTUBaseWidget* const MenuWidget = CreateWidget<USTUBaseWidget>(GetWorld(), MenuWidgetClass);
     if (!MenuWidget) return;
     
     MenuWidget->AddToViewport();

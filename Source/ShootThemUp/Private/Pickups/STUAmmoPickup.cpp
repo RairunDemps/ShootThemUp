@@ -9,10 +9,10 @@ DEFINE_LOG_CATEGORY_STATIC(LogAmmoPickup, All, All);
 
 bool ASTUAmmoPickup::GivePickupTo(APawn* PlayerPawn)
 {
-    USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PlayerPawn);
+    USTUHealthComponent* const HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PlayerPawn);
     if (!HealthComponent || HealthComponent->IsDead()) return false;
 
-    USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(PlayerPawn);
+    USTUWeaponComponent* const WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(PlayerPawn);
     if (!WeaponComponent) return false;
 
     UE_LOG(LogAmmoPickup, Display, TEXT("Ammo pickup was taken"));

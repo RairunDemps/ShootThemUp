@@ -46,7 +46,7 @@ void ASTUAICharacter::OnDeath()
 {
     Super::OnDeath();
 
-    AAIController* STUController = Cast<AAIController>(Controller);
+    AAIController* const STUController = Cast<AAIController>(Controller);
     if (!STUController || !STUController->BrainComponent) return;
 
     STUController->BrainComponent->Cleanup();
@@ -56,7 +56,7 @@ void ASTUAICharacter::OnHealthChanged(float Health, float HealthDelta)
 {
     Super::OnHealthChanged(Health, HealthDelta);
 
-    USTUHealthBarWidget* HealthBarWidget = Cast<USTUHealthBarWidget>(HealthWidgetComponent->GetUserWidgetObject());
+    USTUHealthBarWidget* const HealthBarWidget = Cast<USTUHealthBarWidget>(HealthWidgetComponent->GetUserWidgetObject());
     if (!HealthBarWidget) return;
 
     HealthBarWidget->SetHealthPercent(HealthComponent->GetHealthPercent());
@@ -69,8 +69,8 @@ void ASTUAICharacter::UpdateHealthBarVisibility()
         !GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator())  //
         return;
 
-    FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator()->GetActorLocation();
-    float Distance = FVector::Distance(PlayerLocation, GetActorLocation());
+    const FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator()->GetActorLocation();
+    const float Distance = FVector::Distance(PlayerLocation, GetActorLocation());
 
     HealthWidgetComponent->SetVisibility(Distance < HealthBarVisibilityDistance, true);
 }

@@ -41,7 +41,7 @@ void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
 {
     Super::NotifyActorBeginOverlap(OtherActor);
 
-    APawn* Pawn = Cast<APawn>(OtherActor);
+    APawn* const Pawn = Cast<APawn>(OtherActor);
     if (GivePickupTo(Pawn))
     {
         PickupWasTaken();
@@ -77,6 +77,6 @@ void ASTUBasePickup::Respawn()
 
 void ASTUBasePickup::GenerateRotationYaw()
 {
-    float Direction = FMath::RandBool() ? 1.0f : -1.0f;
+    const float Direction = FMath::RandBool() ? 1.0f : -1.0f;
     RotationYaw = FMath::RandRange(1.0f, 2.0f) * Direction;
 }

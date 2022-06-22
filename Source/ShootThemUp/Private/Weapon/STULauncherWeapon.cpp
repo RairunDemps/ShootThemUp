@@ -26,11 +26,11 @@ void ASTULauncherWeapon::MakeShot()
     FHitResult HitResult;
     MakeHit(HitResult, TraceStart, TraceEnd);
 
-    FVector EndPoint = HitResult.bBlockingHit ? HitResult.ImpactPoint : TraceEnd;
-    FVector Direction = (EndPoint - GetMuzzleWorldLocation()).GetSafeNormal();
+    const FVector EndPoint = HitResult.bBlockingHit ? HitResult.ImpactPoint : TraceEnd;
+    const FVector Direction = (EndPoint - GetMuzzleWorldLocation()).GetSafeNormal();
 
-    FTransform SpawnTransform(FRotator::ZeroRotator, GetMuzzleWorldLocation());
-    ASTUProjectile* Projectile = GetWorld()->SpawnActorDeferred<ASTUProjectile>(ProjectileClass, SpawnTransform);
+    const FTransform SpawnTransform(FRotator::ZeroRotator, GetMuzzleWorldLocation());
+    ASTUProjectile* const Projectile = GetWorld()->SpawnActorDeferred<ASTUProjectile>(ProjectileClass, SpawnTransform);
     if (Projectile)
     {
         Projectile->SetShotDirection(Direction);

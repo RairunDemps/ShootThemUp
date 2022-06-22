@@ -46,8 +46,8 @@ UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AContr
 
 void ASTUGameModeBase::Killed(AController* KillerController, AController* VictimController)
 {
-    ASTUPlayerState* KillerPlayerState = KillerController ? KillerController->GetPlayerState<ASTUPlayerState>() : nullptr;
-    ASTUPlayerState* VictimPlayerState = VictimController ? VictimController->GetPlayerState<ASTUPlayerState>() : nullptr;
+    ASTUPlayerState* const KillerPlayerState = KillerController ? KillerController->GetPlayerState<ASTUPlayerState>() : nullptr;
+    ASTUPlayerState* const VictimPlayerState = VictimController ? VictimController->GetPlayerState<ASTUPlayerState>() : nullptr;
     if (KillerPlayerState)
     {
         KillerPlayerState->AddKill();
@@ -98,7 +98,7 @@ void ASTUGameModeBase::SpawnBots()
     {
         FActorSpawnParameters SpawnInfo;
         SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-        AAIController* STUAIController = GetWorld()->SpawnActor<AAIController>(AAIControllerClass, SpawnInfo);
+        AAIController* const STUAIController = GetWorld()->SpawnActor<AAIController>(AAIControllerClass, SpawnInfo);
         RestartPlayer(STUAIController);
     }
 }
@@ -131,7 +131,7 @@ void ASTUGameModeBase::ResetPlayers()
 {
     if (!GetWorld()) return;
 
-    for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+    for (FConstControllerIterator It = GetWorld()->GetControllerIterator(); It; ++It)
     {
         ResetOnePlayer(It->Get());
     }
@@ -153,12 +153,12 @@ void ASTUGameModeBase::CreateTeamsInfo()
     if (!GetWorld()) return;
 
     int32 TeamID = 1;
-    for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+    for (FConstControllerIterator It = GetWorld()->GetControllerIterator(); It; ++It)
     {
-        AController* Controller = It->Get();
+        AController* const Controller = It->Get();
         if (!Controller) continue;
 
-        ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* const PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
         if (!PlayerState) continue;
 
         PlayerState->SetTeamID(TeamID);
@@ -183,10 +183,10 @@ void ASTUGameModeBase::SetPlayerColor(AController* Controller)
 {
     if (!Controller) return;
 
-    ASTUBaseCharacter* Character = Controller->GetPawn<ASTUBaseCharacter>();
+    ASTUBaseCharacter*  const Character = Controller->GetPawn<ASTUBaseCharacter>();
     if (!Character) return;
 
-    ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+    ASTUPlayerState* const PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
     Character->SetPlayerColor(PlayerState->GetTeamColor());
 }
 
@@ -194,12 +194,12 @@ void ASTUGameModeBase::LogPlayerInfo()
 {
     if (!GetWorld()) return;
 
-    for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+    for (FConstControllerIterator It = GetWorld()->GetControllerIterator(); It; ++It)
     {
-        AController* Controller = It->Get();
+        AController* const Controller = It->Get();
         if (!Controller) continue;
 
-        ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+        ASTUPlayerState* const PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
         if (!PlayerState) continue;
 
         PlayerState->LogInfo();
@@ -208,10 +208,10 @@ void ASTUGameModeBase::LogPlayerInfo()
 
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
-    bool RespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
+    const bool RespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
     if (!RespawnAvailable) return;
 
-    USTURespawnComponent* RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);
+    USTURespawnComponent* const RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);
     if (!RespawnComponent) return;
 
     RespawnComponent->Respawn(GameData.RespawnTime);
@@ -220,7 +220,7 @@ void ASTUGameModeBase::StartRespawn(AController* Controller)
 void ASTUGameModeBase::GameOver()
 {
     LogPlayerInfo();
-    for (auto Pawn : TActorRange<APawn>(GetWorld()))
+    for (APawn* const Pawn : TActorRange<APawn>(GetWorld()))
     {
         if (Pawn)
         {
@@ -242,11 +242,11 @@ void ASTUGameModeBase::SetMatchState(ESTUMatchState State)
 
 void ASTUGameModeBase::StopAllFire()
 {
-    for (auto Pawn : TActorRange<APawn>(GetWorld()))
+    for (APawn* const Pawn : TActorRange<APawn>(GetWorld()))
     {
         if (!Pawn) continue;
 
-        ASTUBaseCharacter* STUCharacter = Cast<ASTUBaseCharacter>(Pawn);
+        ASTUBaseCharacter* const STUCharacter = Cast<ASTUBaseCharacter>(Pawn);
         if (!STUCharacter) continue;
 
         STUCharacter->StopWeaponAction();

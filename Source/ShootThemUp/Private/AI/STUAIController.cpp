@@ -12,7 +12,6 @@ ASTUAIController::ASTUAIController()
     SetPerceptionComponent(*STUAIPerceptionComponent);
 
     RespawnComponent = CreateDefaultSubobject<USTURespawnComponent>("RespawnComponent");
-
     bWantsPlayerState = true;
 }
 
@@ -20,7 +19,7 @@ void ASTUAIController::OnPossess(APawn* InPawn)
 {
     Super::OnPossess(InPawn);
 
-    ASTUAICharacter* STUCharacter = Cast<ASTUAICharacter>(InPawn);
+    ASTUAICharacter* const STUCharacter = Cast<ASTUAICharacter>(InPawn);
     if (!STUCharacter) return;
 
     RunBehaviorTree(STUCharacter->BehaviorTreeAsset);
@@ -30,7 +29,7 @@ void ASTUAIController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    AActor* AimActor = GetFocusOnActor();
+    AActor* const AimActor = GetFocusOnActor();
     SetFocus(AimActor);
 }
 

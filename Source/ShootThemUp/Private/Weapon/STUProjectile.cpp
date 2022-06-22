@@ -62,7 +62,7 @@ void ASTUProjectile::OnProjectileHit(
 
 AController* ASTUProjectile::GetController() const
 {
-    APawn* Pawn = GetOwner<APawn>();
+    APawn* const Pawn = GetOwner<APawn>();
 
     return Pawn ? Pawn->GetController() : nullptr;
 }

@@ -49,17 +49,17 @@ float ASTUBaseCharacter::GetMovementDirection() const
 {
     if (GetVelocity().IsZero()) return 0.0f;
 
-    FVector VelocityNormal = GetVelocity().GetSafeNormal();
-    float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
-    FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
-    float Degrees = FMath::RadiansToDegrees(AngleBetween);
+    const FVector VelocityNormal = GetVelocity().GetSafeNormal();
+    const float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
+    const FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
+    const float Degrees = FMath::RadiansToDegrees(AngleBetween);
 
     return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
 
 void ASTUBaseCharacter::SetPlayerColor(const FLinearColor& Color)
 {
-    UMaterialInstanceDynamic* MaterialInstance = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
+    UMaterialInstanceDynamic* const MaterialInstance = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
     if (!MaterialInstance) return;
 
     MaterialInstance->SetVectorParameterValue(MaterialColorName, Color);
@@ -85,8 +85,7 @@ void ASTUBaseCharacter::OnDeath()
     GetCharacterMovement()->DisableMovement();
     SetLifeSpan(LifeSpanOnDeath);
     GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-    WeaponComponent->StopFire();
-    WeaponComponent->Zoom(false);
+    StopWeaponAction();
     GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     GetMesh()->SetSimulatePhysics(true);
     UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
@@ -96,10 +95,10 @@ void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta) {}
 
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 {
-    float VelocityZ = -GetVelocity().Z;
+    const float VelocityZ = -GetVelocity().Z;
     if (VelocityZ < LandedDamageVelocity.X) return;
 
-    float FallDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, VelocityZ);
+    const float FallDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, VelocityZ);
     TakeDamage(FallDamage, FDamageEvent{}, nullptr, nullptr);
 }
 

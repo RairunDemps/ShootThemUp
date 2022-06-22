@@ -9,8 +9,8 @@
 
 int32 USTUPlayerHUDWidget::GetKillsNum() const
 {
-    APlayerController* Controller = GetOwningPlayer();
-    ASTUPlayerState* PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+    APlayerController* const Controller = GetOwningPlayer();
+    ASTUPlayerState* const PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
 
     return PlayerState ? PlayerState->GetKillsNum() : 0;
 }
@@ -28,7 +28,7 @@ void USTUPlayerHUDWidget::NativeOnInitialized()
 
 void USTUPlayerHUDWidget::OnNewPawn(APawn* Pawn)
 {
-    USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Pawn);
+    USTUHealthComponent* const HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Pawn);
     if (HealthComponent)
     {
         HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
@@ -62,7 +62,7 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
 {
-    USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
+    USTUHealthComponent* const HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
     if (!HealthComponent) return 0.0f;
 
     return HealthComponent->GetHealthPercent();
@@ -70,7 +70,7 @@ float USTUPlayerHUDWidget::GetHealthPercent() const
 
 bool USTUPlayerHUDWidget::GetWeaponUIData(FWeaponUIData& UIData) const
 {
-    USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
+    USTUWeaponComponent* const WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
     if (!WeaponComponent) return false;
 
     return WeaponComponent->GetCurrentWeaponUIData(UIData);
@@ -78,7 +78,7 @@ bool USTUPlayerHUDWidget::GetWeaponUIData(FWeaponUIData& UIData) const
 
 bool USTUPlayerHUDWidget::GetAmmoData(FAmmoData& Data) const
 {
-    USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
+    USTUWeaponComponent* const WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
     if (!WeaponComponent) return false;
 
     return WeaponComponent->GetCurrentWeaponAmmoData(Data);
@@ -86,24 +86,24 @@ bool USTUPlayerHUDWidget::GetAmmoData(FAmmoData& Data) const
 
 bool USTUPlayerHUDWidget::IsPlayerAlive() const
 {
-    USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
+    USTUHealthComponent* const HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
 
     return HealthComponent && !HealthComponent->IsDead();
 }
 
 bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 {
-    APlayerController* Controller = GetOwningPlayer();
+    APlayerController* const Controller = GetOwningPlayer();
 
     return Controller && Controller->GetStateName() == NAME_Spectating;
 }
 
 FString USTUPlayerHUDWidget::BulletsFromIntToText(int32 BulletsNum) const
 {
-    int32 MaxLen = 3;
-    TCHAR FillSymbol = '0';
+    const int32 MaxLen = 3;
+    const TCHAR FillSymbol = '0';
     FString BulletsNumStr = FString::FromInt(BulletsNum);
-    int NumberOfSymbolsToFill = MaxLen - BulletsNumStr.Len();
+    const int NumberOfSymbolsToFill = MaxLen - BulletsNumStr.Len();
     if (NumberOfSymbolsToFill > 0)
     {
         BulletsNumStr = FString::ChrN(NumberOfSymbolsToFill, FillSymbol).Append(BulletsNumStr);

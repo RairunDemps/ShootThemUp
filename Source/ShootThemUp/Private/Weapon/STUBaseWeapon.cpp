@@ -38,12 +38,12 @@ void ASTUBaseWeapon::MakeShot() {}
 
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
 {
-    ACharacter* STUCharacter = GetOwner<ACharacter>();
+    ACharacter* const STUCharacter = GetOwner<ACharacter>();
     if (!STUCharacter) return false;
 
     if (STUCharacter->IsPlayerControlled())
     {
-        APlayerController* Controller = STUCharacter->GetController<APlayerController>();
+        APlayerController* const Controller = STUCharacter->GetController<APlayerController>();
         if (!Controller) return false;
 
         Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
@@ -69,7 +69,7 @@ bool ASTUBaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
     if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
     TraceStart = ViewLocation;
-    FVector ShootDirection = ViewRotation.Vector();
+    const FVector ShootDirection = ViewRotation.Vector();
     TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 
     return true;
@@ -125,6 +125,7 @@ void ASTUBaseWeapon::ChangeClip()
 
         CurrentAmmo.Clips--;
     }
+
     CurrentAmmo.Bullets = DefaultAmmo.Bullets;
 }
 
@@ -144,7 +145,7 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
     }
     else if (CurrentAmmo.Clips < DefaultAmmo.Clips)
     {
-        int NextClipsAmount = CurrentAmmo.Clips + ClipsAmount;
+        const int NextClipsAmount = CurrentAmmo.Clips + ClipsAmount;
         if (DefaultAmmo.Clips - NextClipsAmount >= 0)
         {
             CurrentAmmo.Clips = NextClipsAmount;
