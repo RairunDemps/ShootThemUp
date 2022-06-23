@@ -22,9 +22,9 @@ Unreal Engine 4.27.2
 <p align="center">
 	<img src="Images/Sanctuary.gif" alt="Sanctuary gameplay">
 </p>
-<h3>Leaderboard at the end of all rounds</h2>
+<h3>Statistics at the end of all rounds</h2>
 <p align="center">
-	<img src="Images/Leaderboard.png" alt="Leaderboard">
+	<img src="Images/Statistics.png" alt="Statistics">
 </p>
 
 
