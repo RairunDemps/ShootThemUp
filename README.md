@@ -37,6 +37,8 @@ Unreal Engine 4.27.2
 	<li>R - reload weapon
 	<li>P - pause game
 	<li>M - mute all sound effects
+	<li>Spacebar - jump
+	<li>Shift(while moving forward) - sprint
 	<li>Mouse - aiming
 	<li>Mouse left button - shoot
 	<li>Mouse right button - zoom(only for rifle)
