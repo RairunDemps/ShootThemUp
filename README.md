@@ -53,7 +53,7 @@ Unreal Engine 4.27.2
 </ul>
 
 <h2>Try by yourself</h2>
-You can download a zip file from <a href="https://psapronov.itch.io/shootthemup">itch.io</a> and play by yourself
+You can download a zip file from <a href="https://psapronov.itch.io/shootthemup" target="_blank">itch.io</a> and play by yourself
 
 <h2>License</h2>
 Access to the sources of this project and their use are governed by the [Unreal Engine End User License Agreement](https://www.unrealengine.com/eula)
